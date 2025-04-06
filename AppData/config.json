@@ -1,7 +1,9 @@
 {
     "Register": {
-        "ActivationCode": "",
-        "Email": "",
+        "CheckNetworkConnection": false,
+        "MachineIP": "127.0.0.1",
+        "MachinePort": "5000",
+        "PasswordCode": "123456",
         "RememberMe": true
     },
     "Update": {
@@ -14,6 +16,6 @@
     },
     "QFluentWidgets": {
         "ThemeColor": "#ff009faa",
-        "ThemeMode": "Auto"
+        "ThemeMode": "Light"
     }
 }

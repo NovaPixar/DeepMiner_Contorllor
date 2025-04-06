@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!-- ####################################################################
+
+This file was generates automatically via the 
+IconPacks.Browser (MIT-License). 
+
+Visit https://github.com/MahApps/MahApps.Metro.IconPacks and 
+https://github.com/MahApps/MahApps.Metro.IconPacks/blob/develop/LICENSE 
+for more information.
+ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+Icon-Name: 			EyeSlashFill
+Iconpack:			BootstrapIcons
+Iconpack-Homepage: 	https://icons.getbootstrap.com/
+Iconpack-License:	https://github.com/twbs/icons?tab=MIT-1-ov-file#readme
+
+#####################################################################-->
+
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="16"
+     height="16">
+    <path d="M202.3125 57.9L172.05 88.18125A65.625 65.625 0 0 0 88.1625 172.06875L49.5375 210.69375C17.5875 182.2875 0 150 0 150S56.25 46.875 150 46.875A131.25 131.25 0 0 1 202.3125 57.9M97.6875 242.1A131.25 131.25 0 0 0 150 253.125C243.75 253.125 300 150 300 150S282.39375 117.73125 250.48125 89.2875L211.81875 127.95A65.625 65.625 0 0 1 127.93125 211.8375zM103.59375 156.6375A46.875 46.875 0 0 1 156.6375 103.59375zM196.40625 143.3625L143.3625 196.425A46.875 46.875 0 0 0 196.40625 143.38125zM255.8625 30.8625L30.8625 255.8625L44.1375 269.1375L269.1375000000001 44.1375z"
+          style="fill:#FFFFFF;
+                 stroke:none
+                 stroke-width:0;
+                 stroke-linecap:flat;
+                 stroke-linejoin:miter;"
+          transform="matrix(0.0533333333333333,0,0,-0.0533333333333333,0,16.0000003051758)" />
+</svg>

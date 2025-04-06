@@ -1,17 +1,47 @@
 <RCC>
-    <qresource prefix="/app">
-        <file>images/icons/SettingsFilled_white.svg</file>
-        <file>images/icons/SettingsFilled_black.svg</file>
-        <file>images/icons/Settings_white.svg</file>
-        <file>images/icons/Settings_black.svg</file>
-        <file>images/DeepMinerLogo.png</file>
-        <file>images/space.jpg</file>
+  <qresource prefix="/app">
+    <file>images/icons/speed.svg</file>
+    <file>images/Trianglify.png</file>
+    <file>images/black_white.png</file>
+    <file>images/line.png</file>
+    <file>images/icons/SettingsFilled_white.svg</file>
+    <file>images/icons/SettingsFilled_black.svg</file>
+
+    <file>images/icons/Material-WifiCancel_white.svg</file>
+    <file>images/icons/Material-WifiCancel_black.svg</file>
+
+    <file>images/icons/BootstrapIcons-EyeSlashFill_black.svg</file>
+    <file>images/icons/BootstrapIcons-EyeSlashFill_white.svg</file>
+
+    <file>images/icons/Settings_white.svg</file>
+    <file>images/icons/Settings_black.svg</file>
+
+    <file>images/icons/Modern-Connect_white.svg</file>
+    <file>images/icons/Modern-Connect_black.svg</file>
+
+    <file>images/icons/Material-CameraOff_white.svg</file>
+    <file>images/icons/Material-CameraOff_black.svg</file>
+
+    <file>images/icons/Fontisto-Camera_white.svg</file>
+    <file>images/icons/Fontisto-Camera_black.svg</file>
+
+    <file>images/icons/SimpleIcons-SpeedyPage_black.svg</file>
+    <file>images/icons/SimpleIcons-SpeedyPage_white.svg</file>
+
+    <file>images/icons/Entypo-Battery_black.svg</file>
+    <file>images/icons/Entypo-Battery_white.svg</file>
+
+    <file>images/gradiant_white.svg</file>
 
 
-        <file>i18n/app.zh_CN.qm</file>
-        <file>i18n/app.zh_HK.qm</file>
 
-        <file>qss/light/setting_interface.qss</file>
-        <file>qss/dark/setting_interface.qss</file>
-    </qresource>
+    <file>images/icons/redDot.svg</file>
+    <file>images/DeepMinerLogo.png</file>
+    <file>images/redDot.png</file>
+    <file>images/space.jpg</file>
+    <file>i18n/app.zh_CN.qm</file>
+    <file>i18n/app.zh_HK.qm</file>
+    <file>qss/light/setting_interface.qss</file>
+    <file>qss/dark/setting_interface.qss</file>
+  </qresource>
 </RCC>

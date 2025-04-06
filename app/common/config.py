@@ -38,8 +38,11 @@ class Config(QConfig):
 
     # register
     rememberMe = ConfigItem("Register", "RememberMe", True)
-    email = ConfigItem("Register", "Email", "")
-    activationCode = ConfigItem("Register", "ActivationCode", "")
+    machineIP = ConfigItem("Register", "MachineIP", "")
+    machinePort = ConfigItem("Register", "MachinePort", 0)
+    passwordCode = ConfigItem("Register", "PasswordCode", "")
+    # 在检查登录的时候是否加入检查网络是否连接，为了开发方便这里默认为False
+    checkNetworkConnection = ConfigItem("Register", "CheckNetworkConnection", False)
 
     # main window
     micaEnabled = ConfigItem("MainWindow", "MicaEnabled", isWin11(), BoolValidator())

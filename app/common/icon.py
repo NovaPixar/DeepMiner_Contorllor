@@ -5,9 +5,15 @@ from qfluentwidgets import FluentIconBase, getIconColor, Theme
 
 
 class Icon(FluentIconBase, Enum):
-
     # TODO: Add your icons here
 
+    BATTERY = "Entypo-Battery"
+    SPEED_SHOW = "SimpleIcons-SpeedyPage"
+    CAMERA = "Fontisto-Camera"
+    CAMERA_OFF = "Material-CameraOff"
+    CONNECT = "Modern-Connect"
+    EYE_SLASH_FILL = "BootstrapIcons-EyeSlashFill"
+    WIFI_CANCEL = "Material-WifiCancel"
     SETTINGS = "Settings"
     SETTINGS_FILLED = "SettingsFilled"
 

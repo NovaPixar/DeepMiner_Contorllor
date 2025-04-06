@@ -19,10 +19,9 @@ from ..common.style_sheet import StyleSheet
 
 class SettingCardGroup(CardGroup):
 
-   def __init__(self, title: str, parent=None):
-       super().__init__(title, parent)
-       setFont(self.titleLabel, 14, QFont.Weight.DemiBold)
-
+    def __init__(self, title: str, parent=None):
+        super().__init__(title, parent)
+        setFont(self.titleLabel, 14, QFont.Weight.DemiBold)
 
 
 class SettingInterface(ScrollArea):

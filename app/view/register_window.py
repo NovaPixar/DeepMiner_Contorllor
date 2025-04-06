@@ -8,10 +8,10 @@ from qfluentwidgets import (MSFluentTitleBar, isDarkTheme, ImageLabel, BodyLabel
                             PasswordLineEdit, PrimaryPushButton, CheckBox, InfoBar,
                             InfoBarPosition, setThemeColor)
 
-from .main_window import MainWindow
-from ..common.config import cfg
-from ..common.license_service import LicenseService
-from ..common.tcp_connect import TcpConnect
+from app.view.main_window import MainWindow
+from app.common.config import cfg
+from app.common.license_service import LicenseService
+from app.common.tcp_connect import TcpConnect
 
 
 def isWin11():
@@ -72,8 +72,9 @@ class RegisterWindow(Window):
         self.passwordCodeLineEdit.setPlaceholderText('••••••••••••')
 
         if self.rememberCheckBox.isChecked():
-            self.machineIPLineEdit.setText(cfg.get(cfg.email))
-            self.passwordCodeLineEdit.setText(cfg.get(cfg.activationCode))
+            self.machineIPLineEdit.setText(cfg.get(cfg.machineIP))
+            self.machinePortLineEdit.setText(cfg.get(cfg.machinePort))
+            self.passwordCodeLineEdit.setText(cfg.get(cfg.passwordCode))
 
         self.__connectSignalToSlot()
         self.__initLayout()
@@ -163,8 +164,6 @@ class RegisterWindow(Window):
         self.testConnectButton.setEnabled(False)
         self.testConnectButton.setText(self.tr('正在连接'))
         # 检验IP和Port是否为空
-        # print(self.machineIPLineEdit.text())
-        # print(self.machinePortLineEdit.text())
         if self.machineIPLineEdit.text() == "" or self.machinePortLineEdit.text() == "":
             InfoBar.error(
                 self.tr("连接失败"),
@@ -174,9 +173,9 @@ class RegisterWindow(Window):
                 parent=self
             )
         else:
-
             # 检查连接是否成功将结果保存在self.isConnect中
-            self.isConnect = self.connector.checkConnection(self.machineIPLineEdit.text(),self.machinePortLineEdit.text())
+            self.isConnect = self.connector.checkConnection(self.machineIPLineEdit.text(),
+                                                            self.machinePortLineEdit.text())
             if not self.isConnect:
                 InfoBar.error(
                     self.tr("连接失败"),
@@ -199,8 +198,7 @@ class RegisterWindow(Window):
 
     def _login(self):
         code = self.passwordCodeLineEdit.text().strip()
-
-        # 密码错误
+        # 密码检查 如果错误
         if not self.register.validate(code, self.machineIPLineEdit.text()):
             InfoBar.error(
                 self.tr("登录失败"),
@@ -209,26 +207,45 @@ class RegisterWindow(Window):
                 duration=2000,
                 parent=self.window()
             )
-        # 连接失败
-        if not self.connector.checkConnection(self.machineIPLineEdit.text(), self.machinePortLineEdit.text()):
-            InfoBar.error(
-                self.tr("连接失败"),
-                self.tr('请检查密码是否正确或连接是否成功'),
-                position=InfoBarPosition.TOP,
-                duration=2000,
-                parent=self.window()
-            )
+            return
+        # 检查是否有启用连接检查
+        if cfg.get(cfg.checkNetworkConnection):
+            # 连接失败
+            if not self.connector.checkConnection(self.machineIPLineEdit.text(), self.machinePortLineEdit.text()):
+                InfoBar.error(
+                    self.tr("连接失败"),
+                    self.tr('请检查密码是否正确或连接是否成功'),
+                    position=InfoBarPosition.TOP,
+                    duration=2000,
+                    parent=self.window()
+                )
+            else:
+                InfoBar.success(
+                    self.tr("Success"),
+                    self.tr('登录成功'),
+                    position=InfoBarPosition.TOP,
+                    parent=self.window()
+                )
+
+                if cfg.get(cfg.rememberMe):
+                    cfg.set(cfg.machineIP, self.machineIPLineEdit.text().strip())
+                    cfg.set(cfg.machinePort, self.machinePortLineEdit.text().strip())
+                    cfg.set(cfg.passwordCode, code)
+
+                self.loginButton.setDisabled(True)
+                QTimer.singleShot(1500, self._showMainWindow)
         else:
             InfoBar.success(
                 self.tr("Success"),
-                self.tr('Activation successful'),
+                self.tr('登录成功'),
                 position=InfoBarPosition.TOP,
                 parent=self.window()
             )
 
             if cfg.get(cfg.rememberMe):
-                cfg.set(cfg.email, self.machineIPLineEdit.text().strip())
-                cfg.set(cfg.activationCode, code)
+                cfg.set(cfg.machineIP, self.machineIPLineEdit.text().strip())
+                cfg.set(cfg.machinePort, self.machinePortLineEdit.text().strip())
+                cfg.set(cfg.passwordCode, code)
 
             self.loginButton.setDisabled(True)
             QTimer.singleShot(1500, self._showMainWindow)
@@ -239,3 +256,9 @@ class RegisterWindow(Window):
 
         w = MainWindow()
         w.show()
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    w = RegisterWindow()
+    w.show()
+    app.exec()
