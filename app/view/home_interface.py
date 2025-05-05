@@ -310,6 +310,20 @@ class HomeInterface(QWidget, Ui_homeInterface):
             self.SpeedHighPillToolButton.setEnabled(False)
             # todo 向主控输送设置速度为0的命令
 
+    def __showChartPLot(self):
+        chartTimer = QTimer(self)
+        chartTimer.timeout.connect(self.__updateChartPlot)
+        chartTimer.start(100)
+        chartTime = 0
+        last_sample_time = -1
+        last_current = None
+        pass
+
+    def __updateChartPlot(self):
+        pass
+
+
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

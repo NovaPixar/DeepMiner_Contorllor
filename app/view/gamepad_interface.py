@@ -1,47 +1,122 @@
 import sys
+import os
+
+# 将项目根目录添加到Python路径
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, project_root)
+
+import qfluentwidgets
 from PySide6.QtWidgets import QWidget, QApplication
-from PySide6.QtGui import QPainter, QPen, QBrush, QPainterPath
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPaintEvent  # 导入 QPaintEvent
+
+from app.ui2py.gamepadPage import Ui_gamepadPage
+from app.common.icon import Icon
+from app.common import resource
+from app.joystick.joystick import JoystickController
 
 
-class GamepadWidget(QWidget):
-    def paintEvent(self, event: QPaintEvent):
-        painter = QPainter(self)
-        # 设置画笔颜色和宽度
-        pen = QPen(Qt.black)
-        pen.setWidth(2)
-        painter.setPen(pen)
-        # 设置画刷为透明
-        brush = QBrush(Qt.transparent)
-        painter.setBrush(brush)
+class GamepadInterface(QWidget, Ui_gamepadPage):
+    def __init__(self, parent=None):
+        super().__init__(parent=parent)
+        self.setupUi(self)
+        self.__initWidget()
+        self.__initLayout()
+        
+        
+        # 创建手柄控制器
+        self.joystick = JoystickController()
+        # 连接信号
+        self.__connectSignalToSlot()
+        
 
-        # 绘制游戏手柄轮廓
-        handle_width = 300
-        handle_height = 200
-        handle_x = (self.width() - handle_width) / 2
-        handle_y = (self.height() - handle_height) / 2
-        painter.drawRoundedRect(handle_x, handle_y, handle_width, handle_height, 20, 20)
+    def __initWidget(self):
+        # 设置滑条为垂直方向
+        self.Axis0Slider.setOrientation(Qt.Vertical)
+        self.Axis1Slider.setOrientation(Qt.Vertical)
+        self.Axis2Slider.setOrientation(Qt.Vertical)
+        self.Axis3Slider.setOrientation(Qt.Vertical)
 
-        # 绘制顶部的两个按键
-        button_width = 30
-        button_height = 40
-        button_spacing = 40
-        top_button_y = handle_y - button_height - 10
-        top_button_x1 = handle_x + (handle_width / 4 - button_width / 2)
-        top_button_x2 = handle_x + (3 * handle_width / 4 - button_width / 2)
-        # 使用 QPainterPath 绘制具有不同圆角的矩形
-        path = QPainterPath()
-        path.moveTo(top_button_x1, top_button_y + 10)  # 左上角
-        path.arcTo(top_button_x1, top_button_y, 20, 20, 180, 90)
-        path.closeSubpath()
+        # 设置滑条范围和初始值
+        for slider in [self.Axis0Slider, self.Axis1Slider, self.Axis2Slider, self.Axis3Slider]:
+            slider.setRange(-100, 100)  # 设置范围从-100到100
+            slider.setValue(0)  # 设置初始值为0
+            slider.setInvertedAppearance(True)  # 反转滑条方向
 
-        painter.drawPath(path)
+    def __initLayout(self):
+        pass
 
+    def __connectSignalToSlot(self):
+        self.joystick.axis_changed.connect(self.__onAxisChanged)
+        self.joystick.button_changed.connect(self.__onButtonChanged)
+        self.joystick.hat_changed.connect(self.__onHatChanged)
+        pass
+
+    def __onAxisChanged(self, axis_id, value):
+        """处理手柄轴值变化的槽函数"""
+        # 将手柄的值（-1到1）映射到滑块的范围（-100到100）
+        slider_value = int(value * 100)
+        
+        # 根据轴的ID更新对应的滑块
+        if axis_id == 0:
+            self.Axis0Slider.setValue(slider_value)
+        elif axis_id == 1:
+            self.Axis1Slider.setValue(slider_value)
+        elif axis_id == 2:
+            self.Axis2Slider.setValue(slider_value)
+        elif axis_id == 3:
+            self.Axis3Slider.setValue(slider_value)
+
+    def __onButtonChanged(self, button_id, value):
+        """处理手柄按钮值变化的槽函数"""
+        # 根据按钮ID更新对应的按钮状态
+        if button_id == 0:  # A按钮
+            self.APillPushButton.setChecked(value)
+        elif button_id == 1:  # B按钮
+            self.BPillPushButton.setChecked(value)
+        elif button_id == 2:  # X按钮
+            self.XPillPushButton.setChecked(value)
+        elif button_id == 3:  # Y按钮
+            self.YPillPushButton.setChecked(value)
+
+    def __onHatChanged(self, hat_id, value):
+        """处理手柄帽子值变化的槽函数"""
+        # 首先重置所有方向键的状态
+        self.UpPillToolButton.setChecked(False)
+        self.DownPillToolButton.setChecked(False)
+        self.LeftPillToolButton.setChecked(False)
+        self.RightPillToolButton.setChecked(False)
+
+        # 根据帽子的值设置对应方向键的状态
+        if value == (0, 1):  # 上
+            self.UpPillToolButton.setChecked(True)
+        elif value == (0, -1):  # 下
+            self.DownPillToolButton.setChecked(True)
+        elif value == (-1, 0):  # 左
+            self.LeftPillToolButton.setChecked(True)
+        elif value == (1, 0):  # 右
+            self.RightPillToolButton.setChecked(True)
+        # 对角线方向的处理（如果需要）
+        elif value == (-1, 1):  # 左上
+            self.LeftPillToolButton.setChecked(True)
+            self.UpPillToolButton.setChecked(True)
+        elif value == (1, 1):  # 右上
+            self.RightPillToolButton.setChecked(True)
+            self.UpToolButton.setChecked(True)
+        elif value == (-1, -1):  # 左下
+            self.LeftPillToolButton.setChecked(True)
+            self.DownPillToolButton.setChecked(True)
+        elif value == (1, -1):  # 右下
+            self.RightPillToolButton.setChecked(True)
+            self.DownPillToolButton.setChecked(True)
+
+    def closeEvent(self, event):
+        """窗口关闭时的处理"""
+        self.joystick.quit()
+        super().closeEvent(event)
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    widget = GamepadWidget()
-    widget.show()
-    sys.exit(app.exec())
+    app = QApplication([])
+    w = GamepadInterface()
+    w.show()
+    app.exec()

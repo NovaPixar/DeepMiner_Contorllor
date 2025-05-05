@@ -107,11 +107,7 @@ class CameraInterface(QWidget, Ui_cameraInterface):
                 pixmap = QPixmap.fromImage(qt_image)
                 # pixmap = pixmap.scaled(1600, 1000)
 
-                # self.ImageLabel.setPixmap(pixmap)
-                # self.ImageLabel.setMinimumSize(0, 0)
-                # self.ImageLabel.setMaximumSize(QtCore.QSize(16777215, 16777215))
                 self.labelPixmapResizer.resizeImageLabel(self.ImageLabel, pixmap)
-                # self.ImageLabel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
                 self.ImageLabel.setScaledContents(True)
 
 

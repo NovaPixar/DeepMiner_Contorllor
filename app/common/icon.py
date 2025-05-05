@@ -16,6 +16,7 @@ class Icon(FluentIconBase, Enum):
     WIFI_CANCEL = "Material-WifiCancel"
     SETTINGS = "Settings"
     SETTINGS_FILLED = "SettingsFilled"
+    CIRCLE = "bx_circle"
 
     def path(self, theme=Theme.AUTO):
         return f":/app/images/icons/{self.value}_{getIconColor(theme)}.svg"

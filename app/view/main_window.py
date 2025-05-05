@@ -6,6 +6,7 @@ from PySide6.QtWidgets import QApplication
 from qfluentwidgets import NavigationItemPosition, FluentWindow, SplashScreen
 from qfluentwidgets import FluentIcon as FIF
 
+from .chartPlotInerface import ChartPlotInterface
 from .setting_interface import SettingInterface
 from .camera_interface import CameraInterface
 from .home_interface import HomeInterface
@@ -34,7 +35,7 @@ class MainWindow(FluentWindow):
         self.cameraInterface = CameraInterface(self)
         # 加入主页
         self.homeInterface = HomeInterface(self)
-
+        self.chartPlotInterface = ChartPlotInterface(self)
 
         self.connectSignalToSlot()
 
@@ -63,7 +64,9 @@ class MainWindow(FluentWindow):
 
         self.addSubInterface(self.homeInterface, FIF.HOME, self.tr('Home'), NavigationItemPosition.TOP)
         self.addSubInterface(self.cameraInterface, FIF.CAMERA, self.tr('Camera'), NavigationItemPosition.TOP)
+        self.addSubInterface(self.chartPlotInterface, FIF.CAR, self.tr('Chart'), NavigationItemPosition.TOP)
         self.addSubInterface(self.settingInterface, FIF.SETTING, self.tr('Settings'), NavigationItemPosition.BOTTOM)
+
 
         self.splashScreen.finish()
 
@@ -74,7 +77,7 @@ class MainWindow(FluentWindow):
         同时设置自定义背景颜色和Mica效果，并创建启动屏幕。
         最后将窗口移动到屏幕中央并显示。
         """
-        self.resize(1680, 1080)
+        self.resize(1280, 1080)
         self.setMinimumWidth(760)
         self.setWindowIcon(QIcon(':/app/images/DeepMinerLogo.png'))
         self.setWindowTitle('DeepMiner Controller')
